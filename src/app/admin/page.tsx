@@ -76,6 +76,9 @@ export default async function AdminDashboard() {
                 </Link>
                 <form action={async () => {
                   "use server";
+                  const { getSession } = await import("@/lib/auth");
+                  const session = await getSession();
+                  if (!session) return;
                   const { revalidatePath } = await import("next/cache");
                   await dbConnect();
                   await Job.findByIdAndDelete(job._id);

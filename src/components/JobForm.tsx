@@ -130,7 +130,7 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-charcoal-warm">Job Description (HTML supported)</label>
+          <label className="block text-sm font-medium text-charcoal-warm">Job Description</label>
           <textarea
             name="description"
             defaultValue={initialData?.description}

@@ -62,10 +62,9 @@ export default async function JobPage({
           <div className="md:col-span-2 space-y-8">
             <section className="prose prose-stone max-w-none">
               <h2 className="text-3xl serif text-near-black mb-6">About the Role</h2>
-              <div 
-                className="text-olive-gray leading-relaxed space-y-4 font-sans text-lg"
-                dangerouslySetInnerHTML={{ __html: job.description.replace(/\n/g, '<br/>') }} 
-              />
+              <div className="text-olive-gray leading-relaxed font-sans text-lg whitespace-pre-wrap">
+                {job.description}
+              </div>
             </section>
           </div>
 
