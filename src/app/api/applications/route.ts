@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const json = await req.json();
     
     // Explicit field selection to prevent mass assignment
-    const { jobId, name, email, answers } = json;
+    const { jobId, name, email, answers, forgUsername } = json;
 
     // Verify job exists and is open
     const job = await Job.findById(jobId);
@@ -22,6 +22,7 @@ export async function POST(req: Request) {
       name,
       email,
       answers,
+      forgUsername,
       status: 'pending' // Force default status
     });
     

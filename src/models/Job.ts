@@ -14,6 +14,8 @@ export interface IJob {
   description: string;
   status: 'open' | 'closed';
   questions: IQuestion[];
+  requestForgUsername: boolean;
+  forgUsernameRequired: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,6 +35,8 @@ const JobSchema = new Schema<IJob>(
     description: { type: String, required: true },
     status: { type: String, enum: ['open', 'closed'], default: 'open' },
     questions: [QuestionSchema],
+    requestForgUsername: { type: Boolean, default: false },
+    forgUsernameRequired: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

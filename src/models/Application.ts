@@ -4,6 +4,7 @@ export interface IApplication {
   jobId: mongoose.Types.ObjectId;
   name: string;
   email: string;
+  forgUsername?: string;
   answers: { question: string, answer: string }[];
   status: 'pending' | 'reviewed' | 'rejected' | 'accepted';
   createdAt: Date;
@@ -14,6 +15,7 @@ const ApplicationSchema = new Schema<IApplication>(
     jobId: { type: Schema.Types.ObjectId, ref: 'Job', required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
+    forgUsername: { type: String },
     answers: [
       {
         question: { type: String, required: true },

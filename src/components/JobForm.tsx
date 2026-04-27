@@ -23,6 +23,8 @@ interface JobFormProps {
 export default function JobForm({ initialData, isEdit }: JobFormProps) {
   const router = useRouter();
   const [description, setDescription] = useState(initialData?.description || "");
+  const [requestForgUsername, setRequestForgUsername] = useState(initialData?.requestForgUsername || false);
+  const [forgUsernameRequired, setForgUsernameRequired] = useState(initialData?.forgUsernameRequired || false);
   const [questions, setQuestions] = useState<Question[]>(
     initialData?.questions || [
       { label: "Portfolio URL", type: "url", required: true },
@@ -63,6 +65,8 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
       type: formData.get("type"),
       description: description,
       status: formData.get("status"),
+      requestForgUsername,
+      forgUsernameRequired,
       questions,
     };
 
@@ -141,6 +145,42 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
               <option value="closed">Closed</option>
             </select>
           </div>
+        </div>
+
+        <div className="flex flex-col gap-4 p-4 bg-white rounded-xl border border-border-default">
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className="text-sm font-bold text-near-black">Request Forg Username</h4>
+              <p className="text-xs text-text-secondary">Ask the applicant for their forg.to profile username.</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input 
+                type="checkbox" 
+                className="sr-only peer" 
+                checked={requestForgUsername}
+                onChange={(e) => setRequestForgUsername(e.target.checked)}
+              />
+              <div className="w-11 h-6 bg-stone-gray/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-terracotta"></div>
+            </label>
+          </div>
+          
+          {requestForgUsername && (
+            <div className="flex items-center justify-between border-t border-border-subtle pt-4">
+              <div>
+                <h4 className="text-sm font-bold text-near-black">Make Required</h4>
+                <p className="text-xs text-text-secondary">If disabled, the field will be optional.</p>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  className="sr-only peer" 
+                  checked={forgUsernameRequired}
+                  onChange={(e) => setForgUsernameRequired(e.target.checked)}
+                />
+                <div className="w-11 h-6 bg-stone-gray/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-terracotta"></div>
+              </label>
+            </div>
+          )}
         </div>
 
         <div className="space-y-2">

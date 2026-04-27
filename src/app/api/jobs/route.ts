@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     const json = await req.json();
     
     // Explicit field selection to prevent mass assignment
-    const { title, department, location, type, description, status, questions } = json;
+    const { title, department, location, type, description, status, questions, requestForgUsername, forgUsernameRequired } = json;
     
     const job = await Job.create({
       title,
@@ -23,7 +23,9 @@ export async function POST(req: Request) {
       type,
       description,
       status,
-      questions
+      questions,
+      requestForgUsername,
+      forgUsernameRequired
     });
     
     return NextResponse.json(job);
