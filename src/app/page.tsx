@@ -5,6 +5,8 @@ import Link from "next/link";
 import { MapPin, Briefcase, Clock, ArrowUpRight } from "lucide-react";
 import { EmptyStateIcon } from "@/components/EmptyStateIcon";
 
+export const dynamic = "force-dynamic";
+
 export default async function CareersPage() {
   await dbConnect();
   const dbJobs = await Job.find({ status: "open" }).sort({ createdAt: -1 });

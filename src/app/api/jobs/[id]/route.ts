@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Job from "@/models/Job";
 import { getSession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function PUT(
   req: Request,
@@ -55,6 +56,10 @@ export async function PUT(
     );
     
     if (!job) return NextResponse.json({ error: "Not Found" }, { status: 404 });
+    
+    revalidatePath("/");
+    revalidatePath("/admin");
+    revalidatePath(`/jobs/${id}`);
     
     return NextResponse.json(job);
   } catch (error: any) {

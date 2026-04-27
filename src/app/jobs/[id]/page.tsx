@@ -7,6 +7,8 @@ import { ArrowLeft, MapPin, Briefcase, Clock } from "lucide-react";
 import ApplicationForm from "@/components/ApplicationForm";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {

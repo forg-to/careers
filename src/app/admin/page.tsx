@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Plus, Edit, Trash2, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const session = await getSession();
   if (!session) {

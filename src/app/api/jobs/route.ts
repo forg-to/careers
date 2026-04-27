@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Job from "@/models/Job";
 import { getSession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
   try {
@@ -45,6 +46,9 @@ export async function POST(req: Request) {
       salaryRange,
       budget
     });
+    
+    revalidatePath("/");
+    revalidatePath("/admin");
     
     return NextResponse.json(job);
   } catch (error: any) {
