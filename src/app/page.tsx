@@ -4,49 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Briefcase, Clock, ArrowUpRight } from "lucide-react";
 
-// Mock jobs to match the exact screenshot if database is empty
-const MOCK_JOBS = [
-  {
-    _id: "1",
-    title: "Product Designer",
-    description: "We're looking for a mid-level product designer to join our team.",
-    location: "100% remote",
-    type: "Full-time",
-  },
-  {
-    _id: "2",
-    title: "Engineering Manager",
-    description: "We're looking for an experienced engineering manager to join our team.",
-    location: "100% remote",
-    type: "Full-time",
-  },
-  {
-    _id: "3",
-    title: "Customer Success Manager",
-    description: "We're looking for a customer success manager to join our team.",
-    location: "100% remote",
-    type: "Full-time",
-  },
-  {
-    _id: "4",
-    title: "Account Executive",
-    description: "We're looking for an account executive to join our team.",
-    location: "100% remote",
-    type: "Full-time",
-  },
-  {
-    _id: "5",
-    title: "SEO Marketing Manager",
-    description: "We're looking for an experienced SEO marketing manager to join our team.",
-    location: "100% remote",
-    type: "Full-time",
-  },
-];
-
 export default async function CareersPage() {
   await dbConnect();
   const dbJobs = await Job.find({ status: "open" }).sort({ createdAt: -1 });
-  const displayJobs = dbJobs.length > 0 ? dbJobs : MOCK_JOBS;
 
   return (
     <div className="min-h-screen bg-parchment font-sans relative overflow-x-hidden">
@@ -54,31 +14,16 @@ export default async function CareersPage() {
       <div className="absolute top-0 right-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-[#d97757]/30 blur-[100px] rounded-full pointer-events-none -z-10 mix-blend-multiply" />
 
       {/* Navigation */}
-      <nav className="flex items-center justify-between px-6 md:px-12 py-6 max-w-7xl mx-auto">
-        <div className="flex items-center gap-2 font-medium text-lg text-near-black cursor-pointer">
-          <svg className="w-6 h-6 text-terracotta" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-2h2v2zm0-4h-2V7h2v5zm4 4h-2v-2h2v2zm0-4h-2V7h2v5z" />
-          </svg>
-          Untitled UI
-        </div>
-
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-near-black">
-          <Link href="#" className="hover:text-terracotta transition-colors">Home</Link>
-          <Link href="#" className="hover:text-terracotta transition-colors">Pricing</Link>
-          <Link href="#" className="hover:text-terracotta transition-colors">How it works</Link>
-          <Link href="#" className="hover:text-terracotta transition-colors">Resources <span className="text-stone-gray ml-0.5">+</span></Link>
-          <Link href="#" className="hover:text-terracotta transition-colors">Company <span className="text-stone-gray ml-0.5">+</span></Link>
-        </div>
-
-        <div className="flex items-center gap-6 text-sm font-medium">
-          <Link href="/admin/login" className="hidden sm:block text-near-black hover:text-terracotta transition-colors">Log in</Link>
-          <Link href="#" className="bg-near-black text-white px-5 py-2.5 rounded-full hover:bg-near-black/90 transition-colors">Sign up</Link>
+      <nav className="flex items-center justify-center px-6 md:px-12 py-6 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3 font-medium text-lg text-near-black cursor-pointer">
+          <Image src="/logo.png" alt="Forg Logo" width={32} height={32} className="hover:rotate-12 transition-transform duration-500" />
+          Forg
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="px-6 md:px-12 pt-16 pb-12 max-w-7xl mx-auto">
-        <div className="max-w-2xl">
+      <section className="px-6 md:px-12 pt-16 pb-12 max-w-7xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto flex flex-col items-center">
           <div className="inline-block px-4 py-1.5 rounded-full border border-stone-gray/30 text-sm font-medium mb-8">
             We're hiring!
           </div>
@@ -91,7 +36,7 @@ export default async function CareersPage() {
             We're looking for passionate people to join us on our mission. We value flat hierarchies, clear communication, and full ownership and responsibility.
           </p>
 
-          <div className="flex flex-wrap gap-3 mt-8">
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
             <button className="px-5 py-2 rounded-full border border-near-black bg-near-black text-ivory text-sm font-medium">
               View all
             </button>
@@ -109,7 +54,7 @@ export default async function CareersPage() {
         <div className="w-full h-px bg-stone-gray/20 my-4"></div>
         
         <div className="flex flex-col">
-          {displayJobs.map((job) => (
+          {dbJobs.map((job) => (
             <div key={job._id.toString()} className="group border-b border-stone-gray/20 py-10 last:border-0 hover:bg-ivory/50 transition-colors px-2 -mx-2 rounded-xl flex items-start justify-between relative cursor-pointer">
               <div className="max-w-2xl">
                 <h3 className="text-[1.75rem] font-medium text-near-black mb-3 group-hover:text-terracotta transition-colors">

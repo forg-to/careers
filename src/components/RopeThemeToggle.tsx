@@ -282,7 +282,7 @@ export function RopeThemeToggle() {
     }, [toggleTheme]);
 
     return (
-        <div style={{ overflow: "visible", lineHeight: 0 }} className="fixed top-0 right-4 z-[100] hidden md:block">
+        <div style={{ overflow: "visible", lineHeight: 0 }} className="fixed top-0 right-[max(1.5rem,calc(50vw-37rem))] z-[100] hidden md:block">
             <div style={{ marginRight: "-180px" }}>
               <canvas
                   ref={canvasRef}
