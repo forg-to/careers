@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -23,8 +23,9 @@ interface JobFormProps {
 export default function JobForm({ initialData, isEdit }: JobFormProps) {
   const router = useRouter();
   const [description, setDescription] = useState(initialData?.description || "");
-  const [requestForgUsername, setRequestForgUsername] = useState(initialData?.requestForgUsername || false);
-  const [forgUsernameRequired, setForgUsernameRequired] = useState(initialData?.forgUsernameRequired || false);
+  const [requestForgUsername, setRequestForgUsername] = useState(initialData?.requestForgUsername ?? true);
+  const [forgUsernameRequired, setForgUsernameRequired] = useState(initialData?.forgUsernameRequired ?? true);
+  const [error, setError] = useState<string | null>(null);
   const [questions, setQuestions] = useState<Question[]>(
     initialData?.questions || [
       { label: "Portfolio URL", type: "url", required: true },
@@ -57,14 +58,42 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+    
     const formData = new FormData(e.currentTarget);
+    const title = formData.get("title");
+    const department = formData.get("department");
+    const location = formData.get("location");
+    const status = formData.get("status");
+
+    // Validation
+    if (!title || !department || !location) {
+      setError("Please fill in all basic job details.");
+      return;
+    }
+
+    if (!description || description === "<p><br></p>") {
+      setError("Job description cannot be empty.");
+      return;
+    }
+
+    if (questions.length === 0) {
+      setError("At least one application question is required.");
+      return;
+    }
+
+    if (questions.some(q => !q.label.trim())) {
+      setError("All questions must have a label.");
+      return;
+    }
+
     const data = {
-      title: formData.get("title"),
-      department: formData.get("department"),
-      location: formData.get("location"),
+      title,
+      department,
+      location,
       type: formData.get("type"),
       description: description,
-      status: formData.get("status"),
+      status,
       requestForgUsername,
       forgUsernameRequired,
       questions,
@@ -82,11 +111,21 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
     if (res.ok) {
       router.push("/admin");
       router.refresh();
+    } else {
+      const errData = await res.json();
+      setError(errData.error || "Something went wrong.");
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-12 pb-24">
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-600 px-6 py-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
+          <AlertCircle size={20} />
+          <span className="font-medium">{error}</span>
+        </div>
+      )}
+
       <div className="bg-ivory p-8 rounded-xl ring-shadow space-y-6 border border-border-subtle">
         <h2 className="text-2xl serif text-near-black border-b border-border-subtle pb-4">Job Details</h2>
         
@@ -214,49 +253,82 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
           </button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           {questions.map((q, index) => (
-            <div key={index} className="flex gap-4 items-start bg-white p-4 rounded-xl border border-border-default">
-              <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="md:col-span-1.5">
+            <div key={index} className="flex flex-col gap-4 bg-white p-6 rounded-xl border border-border-default shadow-sm hover:border-accent-primary/30 transition-all">
+              <div className="flex justify-between items-start gap-4">
+                <div className="flex-1 space-y-2">
+                  <label className="text-xs font-bold text-text-secondary uppercase tracking-wider">Question Label</label>
                   <input
-                    placeholder="Question Label"
+                    placeholder="e.g. Tell us about your most complex project..."
                     value={q.label}
                     onChange={(e) => updateQuestion(index, "label", e.target.value)}
-                    className="w-full px-3 py-1.5 border border-border-default rounded-lg focus:outline-none text-sm text-near-black"
+                    className="w-full px-4 py-3 border border-border-default rounded-xl focus:ring-2 focus:ring-accent-primary focus:outline-none bg-white transition-all text-near-black text-lg"
                   />
                 </div>
-                <div>
-                  <select
-                    value={q.type}
-                    onChange={(e) => updateQuestion(index, "type", e.target.value as any)}
-                    className="w-full px-3 py-1.5 border border-border-default rounded-lg focus:outline-none text-sm text-near-black"
-                  >
-                    <option value="text">Short Text</option>
-                    <option value="textarea">Long Answer</option>
-                    <option value="url">URL</option>
-                    <option value="email">Email</option>
-                  </select>
+                <button
+                  type="button"
+                  onClick={() => removeQuestion(index)}
+                  className="mt-8 p-2 text-text-tertiary hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                  title="Remove Question"
+                >
+                  <Trash2 size={20} />
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-text-secondary uppercase tracking-wider block mb-1">Answer Type</label>
+                  <div className="flex bg-bg-tertiary p-1 rounded-xl gap-1">
+                    {[
+                      { id: "text", label: "Short Text" },
+                      { id: "textarea", label: "Long Answer" },
+                      { id: "url", label: "URL" },
+                      { id: "email", label: "Email" },
+                    ].map((type) => (
+                      <button
+                        key={type.id}
+                        type="button"
+                        onClick={() => updateQuestion(index, "type", type.id)}
+                        className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                          q.type === type.id
+                            ? "bg-white text-near-black shadow-sm"
+                            : "text-text-secondary hover:text-near-black"
+                        }`}
+                      >
+                        {type.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 px-2">
+
+                <div className="flex items-center gap-3 bg-bg-tertiary px-4 py-3 rounded-xl cursor-pointer hover:bg-stone-gray/10 transition-all self-end" onClick={() => updateQuestion(index, "required", !q.required)}>
                   <input
                     type="checkbox"
                     checked={q.required}
                     onChange={(e) => updateQuestion(index, "required", e.target.checked)}
                     id={`req-${index}`}
+                    className="w-4 h-4 rounded border-border-default text-accent-primary focus:ring-accent-primary cursor-pointer"
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  <label htmlFor={`req-${index}`} className="text-xs text-text-secondary">Required</label>
+                  <label htmlFor={`req-${index}`} className="text-sm font-medium text-near-black cursor-pointer select-none">Required Question</label>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => removeQuestion(index)}
-                className="p-1.5 text-text-tertiary hover:text-accent-primary transition-all"
-              >
-                <Trash2 size={18} />
-              </button>
             </div>
           ))}
+
+          {questions.length === 0 && (
+            <div className="text-center py-12 bg-white/50 rounded-xl border border-dashed border-border-default">
+              <p className="text-olive-gray italic">No questions added. Every application needs at least one question.</p>
+              <button
+                type="button"
+                onClick={addQuestion}
+                className="mt-4 text-accent-primary font-medium hover:underline inline-flex items-center gap-1"
+              >
+                <Plus size={16} /> Add your first question
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

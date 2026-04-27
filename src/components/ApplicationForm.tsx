@@ -1,13 +1,81 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { CheckCircle2, Search, User, Loader2 } from "lucide-react";
+import { CheckCircle2, Search, User, Loader2, XCircle, AlertCircle } from "lucide-react";
 import Image from "next/image";
 
 interface ForgUser {
   username: string;
   name: string;
   avatar?: string;
+}
+
+const validateEmail = (email: string) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
+function ValidatedEmailInput({ 
+  name, 
+  placeholder, 
+  required, 
+  onChange 
+}: { 
+  name: string; 
+  placeholder: string; 
+  required?: boolean; 
+  onChange?: (val: string, isValid: boolean) => void 
+}) {
+  const [value, setValue] = useState("");
+  const [isValid, setIsValid] = useState<boolean | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
+
+  useEffect(() => {
+    if (!value) {
+      setIsValid(null);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      const valid = !!validateEmail(value);
+      setIsValid(valid);
+      onChange?.(value, valid);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [value]);
+
+  return (
+    <div className="space-y-2 relative">
+      <div className="relative">
+        <input
+          name={name}
+          type="email"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          required={required}
+          className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:outline-none bg-white transition-all font-sans text-near-black pr-10 ${
+            isValid === true ? "border-green-500 focus:ring-green-200" : 
+            isValid === false ? "border-red-500 focus:ring-red-200" : 
+            "border-border-cream focus:ring-terracotta"
+          }`}
+          placeholder={placeholder}
+        />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+          {isValid === true && <CheckCircle2 size={18} className="text-green-500" />}
+          {isValid === false && <XCircle size={18} className="text-red-500" />}
+        </div>
+      </div>
+      {isValid === false && (
+        <p className="text-xs text-red-500 flex items-center gap-1">
+          <AlertCircle size={12} /> Please enter a valid email address
+        </p>
+      )}
+    </div>
+  );
 }
 
 function ForgUsernameSearch({ 
@@ -121,9 +189,18 @@ export default function ApplicationForm({ job }: { job: any }) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [forgUsername, setForgUsername] = useState("");
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+
+    if (!emailIsValid) {
+      setError("Please provide a valid email address.");
+      return;
+    }
+
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
@@ -131,6 +208,17 @@ export default function ApplicationForm({ job }: { job: any }) {
       question: q.label,
       answer: formData.get(q.label),
     }));
+
+    // Additional check for email type questions
+    const emailQuestions = job.questions.filter((q: any) => q.type === 'email' && q.required);
+    for (const q of emailQuestions) {
+      const val = formData.get(q.label) as string;
+      if (!validateEmail(val)) {
+        setError(`Please provide a valid email for: ${q.label}`);
+        setLoading(false);
+        return;
+      }
+    }
 
     const data = {
       jobId: job._id,
@@ -148,7 +236,10 @@ export default function ApplicationForm({ job }: { job: any }) {
 
     if (res.ok) {
       setSubmitted(true);
-      window.scrollTo({ top: document.getElementById('apply')?.offsetTop, behavior: 'smooth' });
+      window.scrollTo({ top: (document.getElementById('apply')?.offsetTop || 0), behavior: 'smooth' });
+    } else {
+      const errData = await res.json();
+      setError(errData.error || "Failed to submit application.");
     }
     setLoading(false);
   };
@@ -169,6 +260,12 @@ export default function ApplicationForm({ job }: { job: any }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 bg-ivory p-8 md:p-12 rounded-2xl ring-shadow border border-border-cream whisper-shadow">
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-medium flex items-center gap-2">
+          <AlertCircle size={16} /> {error}
+        </div>
+      )}
+      
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-charcoal-warm">Full Name</label>
@@ -180,13 +277,12 @@ export default function ApplicationForm({ job }: { job: any }) {
           />
         </div>
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-charcoal-warm">Email Address</label>
-          <input
-            name="email"
-            type="email"
-            required
-            className="w-full px-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans text-near-black"
-            placeholder="john@example.com"
+          <label className="block text-sm font-medium text-charcoal-warm">Email Address <span className="text-terracotta">*</span></label>
+          <ValidatedEmailInput 
+            name="email" 
+            placeholder="john@example.com" 
+            required 
+            onChange={(_, isValid) => setEmailIsValid(isValid)}
           />
         </div>
       </div>
@@ -212,6 +308,12 @@ export default function ApplicationForm({ job }: { job: any }) {
                 rows={5}
                 className="w-full px-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans text-near-black"
                 placeholder="Share your thoughts..."
+              />
+            ) : q.type === "email" ? (
+              <ValidatedEmailInput 
+                name={q.label} 
+                placeholder="Email address..." 
+                required={q.required} 
               />
             ) : (
               <input
