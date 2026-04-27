@@ -309,6 +309,19 @@ export default function ApplicationForm({ job }: { job: any }) {
                 className="w-full px-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans text-near-black"
                 placeholder="Share your thoughts..."
               />
+            ) : q.type === "select" ? (
+              <select
+                name={q.label}
+                required={q.required}
+                className="w-full px-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans text-near-black"
+              >
+                <option value="">Select an option...</option>
+                {q.options?.map((opt: string, i: number) => (
+                  <option key={i} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
             ) : q.type === "email" ? (
               <ValidatedEmailInput 
                 name={q.label} 

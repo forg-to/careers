@@ -286,11 +286,17 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
                       { id: "textarea", label: "Long Answer" },
                       { id: "url", label: "URL" },
                       { id: "email", label: "Email" },
+                      { id: "select", label: "Select" },
                     ].map((type) => (
                       <button
                         key={type.id}
                         type="button"
-                        onClick={() => updateQuestion(index, "type", type.id)}
+                        onClick={() => {
+                          updateQuestion(index, "type", type.id as any);
+                          if (type.id === "select" && !q.options) {
+                            updateQuestion(index, "options", [""]);
+                          }
+                        }}
                         className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                           q.type === type.id
                             ? "bg-white text-near-black shadow-sm"
@@ -315,6 +321,50 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
                   <label htmlFor={`req-${index}`} className="text-sm font-medium text-near-black cursor-pointer select-none">Required Question</label>
                 </div>
               </div>
+
+              {q.type === "select" && (
+                <div className="space-y-3 bg-bg-tertiary/50 p-4 rounded-xl border border-border-subtle animate-in fade-in zoom-in-95 duration-200">
+                  <div className="flex items-center justify-between px-1">
+                    <label className="text-xs font-bold text-text-secondary uppercase tracking-wider">Options</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newOptions = [...(q.options || []), ""];
+                        updateQuestion(index, "options", newOptions);
+                      }}
+                      className="text-xs font-bold text-accent-primary hover:brightness-110 flex items-center gap-1"
+                    >
+                      <Plus size={14} /> Add Option
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {(q.options || []).map((option, optIndex) => (
+                      <div key={optIndex} className="flex gap-2">
+                        <input
+                          placeholder={`Option ${optIndex + 1}`}
+                          value={option}
+                          onChange={(e) => {
+                            const newOptions = [...(q.options || [])];
+                            newOptions[optIndex] = e.target.value;
+                            updateQuestion(index, "options", newOptions);
+                          }}
+                          className="flex-1 px-3 py-2 border border-border-default rounded-lg focus:ring-2 focus:ring-accent-primary focus:outline-none bg-white transition-all text-near-black text-sm"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newOptions = (q.options || []).filter((_, i) => i !== optIndex);
+                            updateQuestion(index, "options", newOptions.length > 0 ? newOptions : [""]);
+                          }}
+                          className="p-2 text-text-tertiary hover:text-red-500 rounded-lg transition-all"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ))}
 
