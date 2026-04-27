@@ -88,7 +88,7 @@ export default async function JobPage({
           </Link>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-border-default">
-            <div className="w-full break-words">
+            <div className="w-full">
               <h1 className="text-4xl md:text-5xl serif text-text-primary mb-4">{job.title}</h1>
               <div className="flex flex-wrap gap-4 md:gap-6 text-text-tertiary">
                 <span className="flex items-center gap-2 font-medium">
@@ -137,7 +137,7 @@ export default async function JobPage({
             <section className="prose prose-stone max-w-none">
               <h2 className="text-3xl serif text-text-primary mb-6">About the Role</h2>
               <div 
-                className="text-text-secondary leading-relaxed font-sans text-lg rich-text break-words overflow-hidden"
+                className="text-text-secondary leading-relaxed font-sans text-lg rich-text"
                 dangerouslySetInnerHTML={{ __html: job.description }}
               />
             </section>
