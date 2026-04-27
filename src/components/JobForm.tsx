@@ -46,6 +46,12 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
   const [skillInput, setSkillInput] = useState("");
   const [showSkillSuggestions, setShowSkillSuggestions] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [questions, setQuestions] = useState<Question[]>(
+    initialData?.questions || [
+      { label: "Portfolio URL", type: "url", required: true },
+      { label: "What is the most interesting thing you've built lately?", type: "textarea", required: true },
+    ]
+  );
   
   const filteredSuggestions = ALL_SUGGESTED_SKILLS.filter(
     skill => skill.toLowerCase().includes(skillInput.toLowerCase()) && !selectedSkills.includes(skill)
