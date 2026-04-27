@@ -18,11 +18,39 @@ export async function PUT(
     const json = await req.json();
 
     // Explicit field selection
-    const { title, department, location, type, description, status, questions, requestForgUsername, forgUsernameRequired } = json;
+    const { 
+      title, 
+      department, 
+      location, 
+      type, 
+      description, 
+      status, 
+      questions, 
+      requestForgUsername, 
+      forgUsernameRequired,
+      mustHaveSkills,
+      experience,
+      salaryRange,
+      budget
+    } = json;
     
     const job = await Job.findByIdAndUpdate(
       id, 
-      { title, department, location, type, description, status, questions, requestForgUsername, forgUsernameRequired }, 
+      { 
+        title, 
+        department, 
+        location, 
+        type, 
+        description, 
+        status, 
+        questions, 
+        requestForgUsername, 
+        forgUsernameRequired,
+        mustHaveSkills,
+        experience,
+        salaryRange,
+        budget
+      }, 
       { new: true, runValidators: true }
     );
     

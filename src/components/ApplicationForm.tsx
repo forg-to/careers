@@ -57,10 +57,10 @@ function ValidatedEmailInput({
           value={value}
           onChange={(e) => setValue(e.target.value)}
           required={required}
-          className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:outline-none bg-white transition-all font-sans text-near-black pr-10 ${
+          className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:outline-none bg-bg-elevated transition-all font-sans text-text-primary pr-10 ${
             isValid === true ? "border-green-500 focus:ring-green-200" : 
             isValid === false ? "border-red-500 focus:ring-red-200" : 
-            "border-border-cream focus:ring-terracotta"
+            "border-border-default focus:ring-accent-primary"
           }`}
           placeholder={placeholder}
         />
@@ -130,8 +130,8 @@ function ForgUsernameSearch({
 
   return (
     <div className="space-y-2 relative" ref={dropdownRef}>
-      <label className="block text-sm font-medium text-charcoal-warm">
-        Forg Username {required && <span className="text-terracotta">*</span>}
+      <label className="block text-sm font-medium text-text-secondary">
+        Forg Username {required && <span className="text-accent-primary">*</span>}
       </label>
       <div className="relative">
         <input
@@ -143,16 +143,16 @@ function ForgUsernameSearch({
           }}
           required={required}
           autoComplete="off"
-          className="w-full pl-10 pr-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans"
+          className="w-full pl-10 pr-4 py-3 border border-border-default rounded-xl focus:ring-2 focus:ring-accent-primary focus:outline-none bg-bg-elevated transition-all font-sans text-text-primary"
           placeholder="Type your forg.to username..."
         />
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-gray">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary">
           {loading ? <Loader2 size={18} className="animate-spin" /> : <Search size={18} />}
         </div>
       </div>
 
       {showResults && results.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-border-cream rounded-xl shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-50 w-full mt-1 bg-bg-elevated border border-border-default rounded-xl shadow-lg max-h-60 overflow-auto">
           {results.map((user) => (
             <button
               key={user.username}
@@ -162,20 +162,20 @@ function ForgUsernameSearch({
                 onChange(user.username);
                 setShowResults(false);
               }}
-              className="w-full flex items-center gap-3 p-3 hover:bg-parchment transition-colors text-left"
+              className="w-full flex items-center gap-3 p-3 hover:bg-bg-primary transition-colors text-left"
             >
-              <div className="w-8 h-8 rounded-full overflow-hidden bg-warm-sand flex-shrink-0 relative">
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-bg-tertiary flex-shrink-0 relative">
                 {user.avatar ? (
                   <Image src={user.avatar} alt={user.username} fill className="object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-stone-gray">
+                  <div className="w-full h-full flex items-center justify-center text-text-tertiary">
                     <User size={16} />
                   </div>
                 )}
               </div>
               <div>
-                <div className="text-sm font-bold text-near-black">{user.name}</div>
-                <div className="text-xs text-olive-gray">@{user.username}</div>
+                <div className="text-sm font-bold text-text-primary">{user.name}</div>
+                <div className="text-xs text-text-tertiary">@{user.username}</div>
               </div>
             </button>
           ))}
@@ -246,12 +246,12 @@ export default function ApplicationForm({ job }: { job: any }) {
 
   if (submitted) {
     return (
-      <div className="bg-ivory p-12 rounded-2xl ring-shadow text-center space-y-4 whisper-shadow border border-border-cream">
+      <div className="bg-bg-secondary p-12 rounded-2xl ring-shadow text-center space-y-4 whisper-shadow border border-border-subtle">
         <div className="flex justify-center">
           <CheckCircle2 size={64} className="text-green-500" />
         </div>
-        <h3 className="text-3xl serif text-near-black">Application Received</h3>
-        <p className="text-olive-gray text-lg max-w-md mx-auto">
+        <h3 className="text-3xl serif text-text-primary">Application Received</h3>
+        <p className="text-text-tertiary text-lg max-w-md mx-auto">
           Thank you for sharing your journey with us. We'll review your "proof of build" and get back to you soon.
         </p>
       </div>
@@ -259,25 +259,25 @@ export default function ApplicationForm({ job }: { job: any }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 bg-ivory p-8 md:p-12 rounded-2xl ring-shadow border border-border-cream whisper-shadow">
+    <form onSubmit={handleSubmit} className="space-y-8 bg-bg-secondary p-8 md:p-12 rounded-2xl ring-shadow border border-border-subtle whisper-shadow">
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-medium flex items-center gap-2">
+        <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-3 rounded-xl text-sm font-medium flex items-center gap-2">
           <AlertCircle size={16} /> {error}
         </div>
       )}
       
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-charcoal-warm">Full Name</label>
+          <label className="block text-sm font-medium text-text-secondary">Full Name</label>
           <input
             name="name"
             required
-            className="w-full px-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans text-near-black"
+            className="w-full px-4 py-3 border border-border-default rounded-xl focus:ring-2 focus:ring-accent-primary focus:outline-none bg-bg-elevated transition-all font-sans text-text-primary"
             placeholder="John Doe"
           />
         </div>
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-charcoal-warm">Email Address <span className="text-terracotta">*</span></label>
+          <label className="block text-sm font-medium text-text-secondary">Email Address <span className="text-accent-primary">*</span></label>
           <ValidatedEmailInput 
             name="email" 
             placeholder="john@example.com" 
@@ -298,22 +298,22 @@ export default function ApplicationForm({ job }: { job: any }) {
       <div className="space-y-8">
         {job.questions.map((q: any, index: number) => (
           <div key={index} className="space-y-2">
-            <label className="block text-sm font-medium text-charcoal-warm">
-              {q.label} {q.required && <span className="text-terracotta">*</span>}
+            <label className="block text-sm font-medium text-text-secondary">
+              {q.label} {q.required && <span className="text-accent-primary">*</span>}
             </label>
             {q.type === "textarea" ? (
               <textarea
                 name={q.label}
                 required={q.required}
                 rows={5}
-                className="w-full px-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans text-near-black"
+                className="w-full px-4 py-3 border border-border-default rounded-xl focus:ring-2 focus:ring-accent-primary focus:outline-none bg-bg-elevated transition-all font-sans text-text-primary"
                 placeholder="Share your thoughts..."
               />
             ) : q.type === "select" ? (
               <select
                 name={q.label}
                 required={q.required}
-                className="w-full px-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans text-near-black"
+                className="w-full px-4 py-3 border border-border-default rounded-xl focus:ring-2 focus:ring-accent-primary focus:outline-none bg-bg-elevated transition-all font-sans text-text-primary"
               >
                 <option value="">Select an option...</option>
                 {q.options?.map((opt: string, i: number) => (
@@ -333,7 +333,7 @@ export default function ApplicationForm({ job }: { job: any }) {
                 name={q.label}
                 type={q.type}
                 required={q.required}
-                className="w-full px-4 py-3 border border-border-cream rounded-xl focus:ring-2 focus:ring-terracotta focus:outline-none bg-white transition-all font-sans text-near-black"
+                className="w-full px-4 py-3 border border-border-default rounded-xl focus:ring-2 focus:ring-accent-primary focus:outline-none bg-bg-elevated transition-all font-sans text-text-primary"
                 placeholder={q.type === 'url' ? 'https://...' : ''}
               />
             )}
@@ -344,12 +344,12 @@ export default function ApplicationForm({ job }: { job: any }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-4 bg-terracotta text-ivory rounded-xl font-medium hover:brightness-110 transition-all shadow-md disabled:opacity-50 text-lg"
+        className="w-full py-4 bg-accent-primary text-text-inverse rounded-xl font-medium hover:brightness-110 transition-all shadow-md disabled:opacity-50 text-lg"
       >
         {loading ? "Sending..." : "Submit Application"}
       </button>
       
-      <p className="text-center text-xs text-stone-gray italic">
+      <p className="text-center text-xs text-text-tertiary italic">
         By submitting, you agree to our builder's code of conduct.
       </p>
     </form>

@@ -18,33 +18,33 @@ export default async function ApplicationsPage() {
       <header className="mb-12">
         <Link
           href="/admin"
-          className="flex items-center gap-2 text-olive-gray hover:text-near-black mb-4 transition-all"
+          className="flex items-center gap-2 text-text-tertiary hover:text-text-primary mb-4 transition-all"
         >
           <ArrowLeft size={18} />
           Back to Dashboard
         </Link>
-        <h1 className="text-4xl serif text-near-black">Applications</h1>
-        <p className="text-olive-gray mt-2">Review submissions from potential builders.</p>
+        <h1 className="text-4xl serif text-text-primary">Applications</h1>
+        <p className="text-text-tertiary mt-2">Review submissions from potential builders.</p>
       </header>
 
       <div className="grid gap-6">
         {applications.length === 0 ? (
-          <div className="text-center p-12 bg-ivory rounded-xl ring-shadow">
-            <p className="text-stone-gray italic">No applications received yet.</p>
+          <div className="text-center p-12 bg-bg-secondary rounded-xl ring-shadow border border-border-subtle">
+            <p className="text-text-tertiary italic">No applications received yet.</p>
           </div>
         ) : (
           applications.map((app) => (
             <div
               key={app._id.toString()}
-              className="bg-ivory p-6 rounded-xl ring-shadow flex justify-between items-center transition-all hover:whisper-shadow"
+              className="bg-bg-secondary p-6 rounded-xl ring-shadow flex justify-between items-center transition-all hover:whisper-shadow border border-border-subtle"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-warm-sand rounded-full flex items-center justify-center text-charcoal-warm">
+                <div className="w-12 h-12 bg-bg-tertiary rounded-full flex items-center justify-center text-text-secondary">
                   <User size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl serif text-near-black">{app.name}</h3>
-                  <div className="flex gap-4 text-sm text-olive-gray">
+                  <h3 className="text-xl serif text-text-primary">{app.name}</h3>
+                  <div className="flex flex-wrap gap-4 text-sm text-text-tertiary">
                     <span>{app.email}</span>
                     <span>•</span>
                     <span>Applied for: {(app.jobId as any)?.title || 'Unknown Role'}</span>
@@ -55,7 +55,7 @@ export default async function ApplicationsPage() {
               </div>
               <Link
                 href={`/admin/applications/${app._id}`}
-                className="px-6 py-2 bg-warm-sand text-charcoal-warm rounded-lg hover:brightness-95 transition-all font-medium text-sm"
+                className="px-6 py-2 bg-bg-tertiary text-text-secondary rounded-lg hover:brightness-95 transition-all font-medium text-sm border border-border-subtle"
               >
                 View Details
               </Link>

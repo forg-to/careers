@@ -17,6 +17,10 @@ export interface IJob {
   questions: IQuestion[];
   requestForgUsername: boolean;
   forgUsernameRequired: boolean;
+  mustHaveSkills: string;
+  experience: string;
+  salaryRange?: string;
+  budget?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -39,6 +43,10 @@ const JobSchema = new Schema<IJob>(
     questions: [QuestionSchema],
     requestForgUsername: { type: Boolean, default: false },
     forgUsernameRequired: { type: Boolean, default: false },
+    mustHaveSkills: { type: String, required: true },
+    experience: { type: String, required: true },
+    salaryRange: { type: String },
+    budget: { type: String },
   },
   { timestamps: true }
 );

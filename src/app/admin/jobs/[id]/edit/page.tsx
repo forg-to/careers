@@ -27,13 +27,13 @@ export default async function EditJobPage({
       <header className="mb-12">
         <Link
           href="/admin"
-          className="flex items-center gap-2 text-olive-gray hover:text-near-black mb-4 transition-all"
+          className="flex items-center gap-2 text-text-tertiary hover:text-text-primary mb-4 transition-all"
         >
           <ArrowLeft size={18} />
           Back to Dashboard
         </Link>
-        <h1 className="text-4xl serif text-near-black">Edit Role</h1>
-        <p className="text-olive-gray mt-2">Update the role details or application questions.</p>
+        <h1 className="text-4xl serif text-text-primary">Edit Role</h1>
+        <p className="text-text-tertiary mt-2">Update the role details or application questions.</p>
       </header>
 
       <JobForm initialData={JSON.parse(JSON.stringify(job))} isEdit />
