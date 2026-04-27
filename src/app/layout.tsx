@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { RopeThemeToggle } from "@/components/RopeThemeToggle";
 
 export const metadata: Metadata = {
   title: "Forg Careers — Build the future of building in public",
@@ -17,7 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased selection:bg-terracotta selection:text-ivory">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('forg-theme');if(t==='light')document.documentElement.classList.add('forg-light');}catch(e){}` }} />
+      </head>
+      <body className="min-h-full flex flex-col">
+        <RopeThemeToggle />
+        {children}
+      </body>
     </html>
   );
 }

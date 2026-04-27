@@ -2,11 +2,13 @@ import dbConnect from "@/lib/db";
 import Job from "@/models/Job";
 import Image from "next/image";
 import Link from "next/link";
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { MapPin, Briefcase, Clock, ArrowUpRight } from "lucide-react";
 
 export default async function CareersPage() {
   await dbConnect();
   const dbJobs = await Job.find({ status: "open" }).sort({ createdAt: -1 });
+  const uniqueDepartments = Array.from(new Set(dbJobs.map((j) => j.department))).filter(Boolean) as string[];
 
   return (
     <div className="min-h-screen bg-parchment font-sans relative overflow-x-hidden">
@@ -40,7 +42,7 @@ export default async function CareersPage() {
             <button className="px-5 py-2 rounded-full border border-near-black bg-near-black text-ivory text-sm font-medium">
               View all
             </button>
-            {['Development', 'Design', 'Marketing', 'Customer Service', 'Operations', 'Finance', 'Management'].map((dept) => (
+            {uniqueDepartments.map((dept) => (
               <button key={dept} className="px-5 py-2 rounded-full border border-stone-gray/30 hover:border-border-cream bg-transparent hover:bg-ivory transition-colors text-near-black text-sm font-medium">
                 {dept}
               </button>
@@ -53,36 +55,44 @@ export default async function CareersPage() {
       <section className="px-6 md:px-12 pb-24 max-w-7xl mx-auto">
         <div className="w-full h-px bg-stone-gray/20 my-4"></div>
         
-        <div className="flex flex-col">
-          {dbJobs.map((job) => (
-            <div key={job._id.toString()} className="group border-b border-stone-gray/20 py-10 last:border-0 hover:bg-ivory/50 transition-colors px-2 -mx-2 rounded-xl flex items-start justify-between relative cursor-pointer">
-              <div className="max-w-2xl">
-                <h3 className="text-[1.75rem] font-medium text-near-black mb-3 group-hover:text-terracotta transition-colors">
-                  {job.title}
-                </h3>
-                <p className="text-olive-gray mb-6 text-lg">
-                  {job.description || `We're looking for a ${job.title.toLowerCase()} to join our team.`}
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-stone-gray/30 text-sm font-medium text-near-black">
-                    <MapPin size={16} className="text-stone-gray" />
-                    {job.location || '100% remote'}
-                  </div>
-                  <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-stone-gray/30 text-sm font-medium text-near-black">
-                    <Clock size={16} className="text-stone-gray" />
-                    {job.type || 'Full-time'}
+        {dbJobs.length === 0 ? (
+          <div className="flex flex-col items-center justify-center p-16 md:p-24 bg-ivory rounded-2xl ring-shadow mx-auto w-full text-center my-8">
+            <MagnifyingGlass size={64} weight="duotone" className="text-terracotta mb-6 opacity-80" />
+            <h3 className="text-3xl serif text-near-black mb-3">No open roles yet.</h3>
+            <p className="text-sm md:text-lg text-olive-gray">We don't have any matching positions right now, but we are always looking for smart builders to join us.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col">
+            {dbJobs.map((job) => (
+              <div key={job._id.toString()} className="group border-b border-stone-gray/20 py-10 last:border-0 hover:bg-ivory/50 transition-colors px-2 -mx-2 rounded-xl flex items-start justify-between relative cursor-pointer">
+                <div className="max-w-2xl">
+                  <h3 className="text-[1.75rem] font-medium text-near-black mb-3 group-hover:text-terracotta transition-colors">
+                    {job.title}
+                  </h3>
+                  <p className="text-olive-gray mb-6 text-lg">
+                    {job.description || `We're looking for a ${job.title.toLowerCase()} to join our team.`}
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-stone-gray/30 text-sm font-medium text-near-black">
+                      <MapPin size={16} className="text-stone-gray" />
+                      {job.location || '100% remote'}
+                    </div>
+                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-stone-gray/30 text-sm font-medium text-near-black">
+                      <Clock size={16} className="text-stone-gray" />
+                      {job.type || 'Full-time'}
+                    </div>
                   </div>
                 </div>
+                <div className="flex items-center gap-2 text-xl font-medium text-near-black group-hover:text-terracotta transition-colors relative z-10 pt-2 p-2">
+                  Apply <ArrowUpRight size={24} strokeWidth={2} />
+                </div>
+                <Link href={`/jobs/${job._id}`} className="absolute inset-0 z-0">
+                  <span className="sr-only">Apply to {job.title}</span>
+                </Link>
               </div>
-              <div className="flex items-center gap-2 text-xl font-medium text-near-black group-hover:text-terracotta transition-colors relative z-10 pt-2 p-2">
-                Apply <ArrowUpRight size={24} strokeWidth={2} />
-              </div>
-              <Link href={`/jobs/${job._id}`} className="absolute inset-0 z-0">
-                <span className="sr-only">Apply to {job.title}</span>
-              </Link>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Bottom Values Banner */}
