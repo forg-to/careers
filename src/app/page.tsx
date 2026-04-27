@@ -2,8 +2,8 @@ import dbConnect from "@/lib/db";
 import Job from "@/models/Job";
 import Image from "next/image";
 import Link from "next/link";
-import { MagnifyingGlass } from "@phosphor-icons/react";
 import { MapPin, Briefcase, Clock, ArrowUpRight } from "lucide-react";
+import { EmptyStateIcon } from "@/components/EmptyStateIcon";
 
 export default async function CareersPage() {
   await dbConnect();
@@ -57,7 +57,7 @@ export default async function CareersPage() {
         
         {dbJobs.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-16 md:p-24 bg-ivory rounded-2xl ring-shadow mx-auto w-full text-center my-8">
-            <MagnifyingGlass size={64} weight="duotone" className="text-terracotta mb-6 opacity-80" />
+            <EmptyStateIcon />
             <h3 className="text-3xl serif text-near-black mb-3">No open roles yet.</h3>
             <p className="text-sm md:text-lg text-olive-gray">We don't have any matching positions right now, but we are always looking for smart builders to join us.</p>
           </div>
@@ -102,19 +102,12 @@ export default async function CareersPage() {
         
         <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-4xl md:text-5xl lg:text-[4rem] text-near-black tracking-tight leading-[1.1] mb-12 max-w-[900px] mx-auto font-medium">
-             Untitled truly values work-life balance. We work hard and deliver, but at the end of the day you can switch off.
+             "We aren't just building another platform; we're crafting a sanctuary for builders to share their craft, find their voice, and grow their legacy in public."
           </h2>
           
           <div className="flex flex-col items-center">
-            <Image 
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=128&h=128&q=80" 
-              alt="Avatar" 
-              width={64} 
-              height={64} 
-              className="rounded-full mb-4 object-cover"
-            />
-            <div className="font-medium text-near-black mb-1 text-lg">Frankie Sullivan</div>
-            <div className="text-olive-gray">Web Developer, Untitled</div>
+            <div className="font-medium text-near-black mb-1 text-lg text-2xl serif">Kumar Kislay</div>
+            <div className="text-olive-gray">Founder of forg.to</div>
           </div>
         </div>
       </section>
