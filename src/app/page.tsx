@@ -2,7 +2,7 @@ import dbConnect from "@/lib/db";
 import Job from "@/models/Job";
 import Image from "next/image";
 import Link from "next/link";
-import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlass } from "@phosphor-icons/react";
 import { MapPin, Briefcase, Clock, ArrowUpRight } from "lucide-react";
 
 export default async function CareersPage() {
@@ -31,7 +31,7 @@ export default async function CareersPage() {
           </div>
           
           <h1 className="text-6xl md:text-[5rem] serif text-near-black mb-6 tracking-tight leading-[1.05]">
-            Be part of our mission
+            Join us in building biggest devs community
           </h1>
           
           <p className="text-lg md:text-[1.25rem] text-olive-gray leading-[1.6] max-w-xl mb-12">
