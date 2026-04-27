@@ -154,7 +154,7 @@ export default async function JobPage({
             <section className="prose prose-stone max-w-none">
               <h2 className="text-3xl serif text-text-primary mb-6">About the Role</h2>
               <div 
-                className="text-text-secondary leading-relaxed font-sans text-lg rich-text"
+                className="text-text-secondary leading-relaxed font-sans text-lg rich-text break-words overflow-hidden"
                 dangerouslySetInnerHTML={{ __html: job.description }}
               />
             </section>

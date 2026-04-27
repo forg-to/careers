@@ -91,6 +91,7 @@ function ForgUsernameSearch({
   const [results, setResults] = useState<ForgUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<ForgUser | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -140,6 +141,7 @@ function ForgUsernameSearch({
           onChange={(e) => {
             setQuery(e.target.value);
             onChange(e.target.value);
+            setSelectedUser(null);
           }}
           required={required}
           autoComplete="off"
@@ -160,6 +162,7 @@ function ForgUsernameSearch({
               onClick={() => {
                 setQuery(user.username);
                 onChange(user.username);
+                setSelectedUser(user);
                 setShowResults(false);
               }}
               className="w-full flex items-center gap-3 p-3 hover:bg-bg-primary transition-colors text-left"
@@ -181,6 +184,25 @@ function ForgUsernameSearch({
           ))}
         </div>
       )}
+
+      {selectedUser && (
+        <div className="mt-3 p-4 bg-bg-primary border border-border-default rounded-xl flex items-center gap-4 shadow-sm animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-bg-tertiary flex-shrink-0 relative">
+            {selectedUser.avatar ? (
+              <Image src={selectedUser.avatar} alt={selectedUser.username} fill className="object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-text-tertiary">
+                <User size={24} />
+              </div>
+            )}
+          </div>
+          <div className="flex-grow">
+            <div className="text-sm font-bold text-text-primary">{selectedUser.name}</div>
+            <div className="text-sm text-text-tertiary">@{selectedUser.username}</div>
+          </div>
+          <CheckCircle2 size={24} className="text-green-500 flex-shrink-0" />
+        </div>
+      )}
     </div>
   );
 }
@@ -189,6 +211,7 @@ export default function ApplicationForm({ job }: { job: any }) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [forgUsername, setForgUsername] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -220,10 +243,12 @@ export default function ApplicationForm({ job }: { job: any }) {
       }
     }
 
+    const submitEmail = formData.get("email") as string;
+    setUserEmail(submitEmail);
     const data = {
       jobId: job._id,
       name: formData.get("name"),
-      email: formData.get("email"),
+      email: submitEmail,
       forgUsername: job.requestForgUsername ? forgUsername : undefined,
       answers,
     };
@@ -236,7 +261,7 @@ export default function ApplicationForm({ job }: { job: any }) {
 
     if (res.ok) {
       setSubmitted(true);
-      window.scrollTo({ top: (document.getElementById('apply')?.offsetTop || 0), behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       const errData = await res.json();
       setError(errData.error || "Failed to submit application.");
@@ -246,14 +271,26 @@ export default function ApplicationForm({ job }: { job: any }) {
 
   if (submitted) {
     return (
-      <div className="bg-bg-secondary p-12 rounded-2xl ring-shadow text-center space-y-4 whisper-shadow border border-border-subtle">
-        <div className="flex justify-center">
-          <CheckCircle2 size={64} className="text-green-500" />
+      <div className="fixed inset-0 z-[100] bg-parchment flex flex-col items-center justify-center p-6 min-h-screen">
+        <div className="w-full max-w-2xl text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <div className="flex justify-center mb-12">
+            <CheckCircle2 size={80} className="text-green-500" />
+          </div>
+          <h1 className="text-5xl md:text-6xl serif text-text-primary tracking-tight leading-tight">
+            Application Received
+          </h1>
+          <p className="text-text-secondary text-xl md:text-2xl max-w-xl mx-auto leading-relaxed">
+            Thank you for sharing your journey with us. Our team will contact you in 3 business days on your email ({userEmail}).
+          </p>
+          <div className="pt-12">
+            <a 
+              href="https://forg.to/explore" 
+              className="inline-block px-8 py-4 bg-accent-primary text-text-inverse rounded-full font-medium hover:brightness-110 transition-all shadow-md text-lg"
+            >
+              Till then explore Forg
+            </a>
+          </div>
         </div>
-        <h3 className="text-3xl serif text-text-primary">Application Received</h3>
-        <p className="text-text-tertiary text-lg max-w-md mx-auto">
-          Thank you for sharing your journey with us. We'll review your "proof of build" and get back to you soon.
-        </p>
       </div>
     );
   }
