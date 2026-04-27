@@ -8,7 +8,7 @@ import { ArrowLeft, User, Mail, Calendar, Briefcase } from "lucide-react";
 export default async function ApplicationDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const session = await getSession();
   if (!session) redirect("/admin/login");

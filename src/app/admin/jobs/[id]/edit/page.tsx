@@ -9,7 +9,7 @@ import Job from "@/models/Job";
 export default async function EditJobPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const session = await getSession();
   if (!session) redirect("/admin/login");

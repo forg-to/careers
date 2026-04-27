@@ -9,7 +9,7 @@ import ApplicationForm from "@/components/ApplicationForm";
 export default async function JobPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   await dbConnect();
   const { id } = await params;
