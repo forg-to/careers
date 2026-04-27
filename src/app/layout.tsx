@@ -3,8 +3,40 @@ import "./globals.css";
 import { RopeThemeToggle } from "@/components/RopeThemeToggle";
 
 export const metadata: Metadata = {
-  title: "Forg Careers — Build the future of building in public",
-  description: "Join the Forg team and help builders grow their online presence.",
+  metadataBase: new URL("https://careers.forg.to"),
+  title: {
+    default: "Forg Careers — Build the future of building in public",
+    template: "%s | Forg Careers",
+  },
+  description: "Join the Forg team and help builders grow their online presence. We're looking for passionate people to help us build the biggest community for developers.",
+  keywords: ["forg careers", "forg jobs", "build in public jobs", "indie hacker jobs", "remote developer roles"],
+  authors: [{ name: "Forg", url: "https://forg.to" }],
+  creator: "Forg",
+  publisher: "Forg",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://careers.forg.to",
+    siteName: "Forg Careers",
+    title: "Forg Careers — Build the future of building in public",
+    description: "Join the Forg team and help builders grow their online presence.",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 800,
+        alt: "Forg Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@forg_to",
+    creator: "@whykislay",
+    title: "Forg Careers — Build the future of building in public",
+    description: "Join the Forg team and help builders grow their online presence.",
+    images: ["/logo.png"],
+  },
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-icon.png",

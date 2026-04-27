@@ -10,8 +10,26 @@ export default async function CareersPage() {
   const dbJobs = await Job.find({ status: "open" }).sort({ createdAt: -1 });
   const uniqueDepartments = Array.from(new Set(dbJobs.map((j) => j.department))).filter(Boolean) as string[];
 
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Forg",
+    url: "https://forg.to",
+    logo: "https://careers.forg.to/logo.png",
+    sameAs: [
+      "https://x.com/forg_to",
+      "https://help.forg.to"
+    ],
+    description: "The community for indie hackers and builders who build in public."
+  };
+
   return (
-    <div className="min-h-screen bg-parchment font-sans relative overflow-x-hidden">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <div className="min-h-screen bg-parchment font-sans relative overflow-x-hidden">
       {/* Decorative blurred background orb (Top Right) */}
       <div className="absolute top-0 right-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-[#d97757]/30 blur-[100px] rounded-full pointer-events-none -z-10 mix-blend-multiply" />
 
@@ -115,13 +133,13 @@ export default async function CareersPage() {
         <div className="flex min-w-full animate-[marquee_20s_linear_infinite]">
           {[...Array(5)].map((_, i) => (
              <span key={i} className="flex items-center">
-                <span className="mx-4">Subscribe to our newsletter</span>
+                <Link href="https://forg.to" className="mx-4 hover:text-white">Join the community</Link>
                 <span className="w-1.5 h-1.5 rounded-full bg-stone-gray" />
-                <span className="mx-4">How it works</span>
+                <Link href="https://help.forg.to/getting-started/what-is-forg" className="mx-4 hover:text-white">How it works</Link>
                 <span className="w-1.5 h-1.5 rounded-full bg-stone-gray" />
-                <span className="mx-4">Documentation</span>
+                <Link href="https://help.forg.to" className="mx-4 hover:text-white">Documentation</Link>
                 <span className="w-1.5 h-1.5 rounded-full bg-stone-gray" />
-                <span className="mx-4">Join the community</span>
+                <Link href="https://forg.to/explore" className="mx-4 hover:text-white">Explore products</Link>
                 <span className="w-1.5 h-1.5 rounded-full bg-stone-gray" />
              </span>
           ))}
@@ -152,5 +170,6 @@ export default async function CareersPage() {
         }
       `}} />
     </div>
+    </>
   );
 }

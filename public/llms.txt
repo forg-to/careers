@@ -1,0 +1,13 @@
+# Forg Careers
+> Build the future of building in public. Join the Forg team.
+
+## About Forg
+Forg is a community and "proof-of-work" social network for indie hackers and developers. We value flat hierarchies, clear communication, and full ownership.
+
+## Core Pages
+- [Open Roles](https://careers.forg.to/): Current job listings at Forg.
+- [Hiring Process](https://careers.forg.to/jobs/any-id): We use a 4-step process including a Review, Sync, Collaborative Build (paid), and Offer.
+- [About Forg](https://help.forg.to/getting-started/what-is-forg): Background on our mission and platform.
+
+## Hiring Philosophy
+We prioritize "proof of build" over traditional resumes. We look for builders who already participate in the community or have a track record of building in public.

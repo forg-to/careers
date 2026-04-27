@@ -1,6 +1,11 @@
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: "noindex, nofollow",
+};
 
 export default async function AdminLayout({
   children,

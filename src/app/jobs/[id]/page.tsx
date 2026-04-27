@@ -5,6 +5,31 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin, Briefcase, Clock } from "lucide-react";
 import ApplicationForm from "@/components/ApplicationForm";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  await dbConnect();
+  const { id } = await params;
+  const job = await Job.findById(id);
+
+  if (!job) return { title: "Job Not Found" };
+
+  const description = job.description.replace(/<[^>]*>/g, "").slice(0, 160) + "...";
+
+  return {
+    title: job.title,
+    description: description,
+    openGraph: {
+      title: `${job.title} | Forg Careers`,
+      description: description,
+      url: `https://careers.forg.to/jobs/${id}`,
+    },
+  };
+}
 
 export default async function JobPage({
   params,
@@ -19,8 +44,53 @@ export default async function JobPage({
     notFound();
   }
 
+  const jobSchema = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: job.title,
+    description: job.description,
+    datePosted: job.createdAt.toISOString(),
+    validThrough: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
+    employmentType: job.type === "Full-time" ? "FULL_TIME" : "CONTRACTOR",
+    hiringOrganization: {
+      "@type": "Organization",
+      name: "Forg",
+      sameAs: "https://forg.to",
+      logo: "https://careers.forg.to/logo.png",
+    },
+    jobLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: job.location,
+        addressCountry: "Remote",
+      },
+    },
+  };
+
+  const processSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "Forg Interview Process",
+    step: [
+      { "@type": "HowToStep", text: "Review of your application and proof of build." },
+      { "@type": "HowToStep", text: "Casual sync to discuss your craft and our mission." },
+      { "@type": "HowToStep", text: "Collaborative build session (paid)." },
+      { "@type": "HowToStep", text: "The Offer." },
+    ],
+  };
+
   return (
-    <main className="min-h-screen bg-parchment py-12 px-6">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(processSchema) }}
+      />
+      <main className="min-h-screen bg-parchment py-12 px-6">
       <div className="max-w-4xl mx-auto">
         <header className="mb-12">
           <Link
@@ -111,5 +181,6 @@ export default async function JobPage({
         <p className="text-stone-gray text-sm italic">Built in public at Forg.</p>
       </footer>
     </main>
+    </>
   );
 }
