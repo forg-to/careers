@@ -129,86 +129,14 @@ export default async function CareersPage() {
       </div>
 
       {/* Light Footer */}
-      <footer className="bg-ivory pt-16 pb-8 px-6 md:px-12 border-t border-border-cream/0 relative z-10">
-        <div className="max-w-7xl mx-auto flex justify-between">
-          
-          <div className="flex flex-wrap md:flex-nowrap justify-between w-full gap-8 lg:gap-16">
-            <div className="w-full grid grid-cols-2 lg:grid-cols-6 gap-8 text-sm">
-              <div className="flex flex-col gap-4">
-                <h4 className="font-medium text-stone-gray mb-1">Product</h4>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Overview</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Features</Link>
-                <Link href="#" className="font-medium text-near-black flex items-center gap-2 hover:text-terracotta">
-                  Solutions <span className="text-[10px] uppercase font-bold border border-stone-gray/30 px-2 py-0.5 rounded-full text-olive-gray">New</span>
-                </Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Tutorials</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Pricing</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Releases</Link>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <h4 className="font-medium text-stone-gray mb-1">Company</h4>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">About us</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Careers</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Press</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">News</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Media kit</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Contact</Link>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <h4 className="font-medium text-stone-gray mb-1">Resources</h4>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Blog</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Newsletter</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Events</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Help centre</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Tutorials</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Support</Link>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <h4 className="font-medium text-stone-gray mb-1">Use cases</h4>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Startups</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Enterprise</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Government</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">SaaS</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Marketplaces</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Ecommerce</Link>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <h4 className="font-medium text-stone-gray mb-1">Social</h4>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Twitter</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">LinkedIn</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Facebook</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">GitHub</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">AngelList</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Dribbble</Link>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <h4 className="font-medium text-stone-gray mb-1">Legal</h4>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Terms</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Privacy</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Cookies</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Licenses</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Settings</Link>
-                <Link href="#" className="font-medium text-near-black hover:text-terracotta">Contact</Link>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mt-12 pt-8 border-t border-stone-gray/20">
-          <div className="flex items-center gap-2 font-medium text-lg text-near-black cursor-pointer mb-4 md:mb-0">
-            <svg className="w-6 h-6 text-terracotta" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-2h2v2zm0-4h-2V7h2v5zm4 4h-2v-2h2v2zm0-4h-2V7h2v5z" />
-            </svg>
-            Untitled UI
-          </div>
+      <footer className="bg-ivory pt-12 pb-8 px-6 md:px-12 border-t border-border-cream/50 relative z-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mt-4">
+          <Link href="https://forg.to" className="flex items-center gap-3 font-medium text-lg text-near-black cursor-pointer mb-4 md:mb-0 hover:text-terracotta transition-colors">
+            <Image src="/logo.png" alt="Forg Logo" width={24} height={24} />
+            Forg
+          </Link>
           <div className="text-stone-gray text-sm">
-            © 2077 Untitled UI. All rights reserved.
+            © {new Date().getFullYear()} Forg. All rights reserved.
           </div>
         </div>
       </footer>
