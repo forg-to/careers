@@ -103,13 +103,17 @@ export default function JobForm({ initialData, isEdit }: JobFormProps) {
           </div>
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Department</label>
-            <input
+            <select
               name="department"
-              defaultValue={initialData?.department}
+              defaultValue={initialData?.department || "Engineering"}
               required
-              placeholder="e.g. Engineering"
               className="w-full px-4 py-2 border border-border-default rounded-xl focus:ring-2 focus:ring-accent-primary focus:outline-none bg-white transition-all text-near-black"
-            />
+            >
+              <option value="Marketing">Marketing</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Design">Design</option>
+              <option value="Sales">Sales</option>
+            </select>
           </div>
           <div className="space-y-2">
             <label className="block text-sm font-medium text-text-secondary">Location</label>
