@@ -50,8 +50,8 @@ export default async function CareersPage() {
             We're hiring!
           </div>
           
-          <h1 className="text-[64px] font-medium serif text-text-primary mb-6 tracking-tight leading-[1.1]">
-            Join us in building biggest devs community
+          <h1 className="text-4xl md:text-5xl lg:text-[64px] font-medium serif text-text-primary mb-6 tracking-tight leading-[1.1] px-2">
+            Join us in building the biggest devs community
           </h1>
           
           <p className="text-lg md:text-[1.25rem] text-text-secondary leading-[1.6] max-w-xl mb-12">
@@ -81,8 +81,8 @@ export default async function CareersPage() {
         ) : (
           <div className="flex flex-col">
             {dbJobs.map((job) => (
-              <div key={job._id.toString()} className="group border-b border-border-default py-10 last:border-0 hover:bg-bg-secondary/50 transition-colors px-2 -mx-2 rounded-xl flex items-start justify-between relative cursor-pointer">
-                <div className="max-w-2xl">
+              <div key={job._id.toString()} className="group border-b border-border-default py-8 md:py-10 last:border-0 hover:bg-bg-secondary/50 transition-colors px-4 md:px-6 -mx-4 md:-mx-6 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between relative cursor-pointer gap-6 w-full">
+                <div className="max-w-2xl w-full">
                   <h3 className="text-[1.75rem] font-medium text-text-primary mb-3 group-hover:text-accent-primary transition-colors serif">
                     {job.title}
                   </h3>
@@ -98,7 +98,7 @@ export default async function CareersPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-xl font-medium text-text-primary group-hover:text-accent-primary transition-colors relative z-10 pt-2 p-2">
+                <div className="flex items-center gap-2 text-xl font-medium text-text-primary group-hover:text-accent-primary transition-colors relative z-10 pt-0 md:pt-2">
                   Apply <ArrowUpRight size={24} strokeWidth={2} />
                 </div>
                 <Link href={`/jobs/${job._id}`} className="absolute inset-0 z-0">

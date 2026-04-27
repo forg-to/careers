@@ -70,29 +70,13 @@ export default async function JobPage({
     },
   };
 
-  const processSchema = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "Forg Interview Process",
-    step: [
-      { "@type": "HowToStep", text: "Review of your application and proof of build." },
-      { "@type": "HowToStep", text: "Casual sync to discuss your craft and our mission." },
-      { "@type": "HowToStep", text: "Collaborative build session (paid)." },
-      { "@type": "HowToStep", text: "The Offer." },
-    ],
-  };
-
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jobSchema) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(processSchema) }}
-      />
-      <main className="min-h-screen bg-parchment py-12 px-6">
+      <main className="min-h-screen bg-parchment py-12 px-4 md:px-6 w-full overflow-hidden">
       <div className="max-w-4xl mx-auto">
         <header className="mb-12">
           <Link
@@ -104,9 +88,9 @@ export default async function JobPage({
           </Link>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-border-default">
-            <div>
-              <h1 className="text-5xl serif text-text-primary mb-4">{job.title}</h1>
-              <div className="flex flex-wrap gap-6 text-text-tertiary">
+            <div className="w-full break-words">
+              <h1 className="text-4xl md:text-5xl serif text-text-primary mb-4">{job.title}</h1>
+              <div className="flex flex-wrap gap-4 md:gap-6 text-text-tertiary">
                 <span className="flex items-center gap-2 font-medium">
                   <Briefcase size={18} className="text-text-tertiary" />
                   {job.department}
@@ -130,9 +114,8 @@ export default async function JobPage({
           </div>
         </header>
 
-        <div className="grid md:grid-cols-3 gap-16">
-          <div className="md:col-span-2 space-y-12">
-            <section className="grid grid-cols-1 sm:grid-cols-2 gap-8 bg-bg-secondary p-8 rounded-2xl ring-shadow border border-border-subtle">
+        <div className="space-y-12 max-w-3xl">
+            <section className="grid grid-cols-1 sm:grid-cols-2 gap-8 bg-bg-secondary p-6 md:p-8 rounded-2xl ring-shadow border border-border-subtle">
               <div className="space-y-1">
                 <h4 className="text-xs font-bold text-text-tertiary uppercase tracking-widest">Experience</h4>
                 <p className="text-lg font-medium text-text-primary">{job.experience}</p>
@@ -158,31 +141,6 @@ export default async function JobPage({
                 dangerouslySetInnerHTML={{ __html: job.description }}
               />
             </section>
-          </div>
-
-          <div className="space-y-8">
-            <div className="bg-bg-secondary p-6 rounded-2xl ring-shadow border border-border-subtle">
-              <h3 className="text-xl serif text-text-primary mb-4">The Forg Process</h3>
-              <ol className="space-y-4 text-sm text-text-tertiary">
-                <li className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-bg-tertiary text-text-primary flex items-center justify-center font-bold">1</span>
-                  <span>Review of your application and proof of build.</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-bg-tertiary text-text-primary flex items-center justify-center font-bold">2</span>
-                  <span>Casual sync to discuss your craft and our mission.</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-bg-tertiary text-text-primary flex items-center justify-center font-bold">3</span>
-                  <span>Collaborative build session (paid).</span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-bg-tertiary text-text-primary flex items-center justify-center font-bold">4</span>
-                  <span>The Offer.</span>
-                </li>
-              </ol>
-            </div>
-          </div>
         </div>
 
         <section id="apply" className="mt-24 pt-24 border-t border-border-default">
