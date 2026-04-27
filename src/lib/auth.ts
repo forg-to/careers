@@ -1,9 +1,16 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
 
-const secretKey = "secret";
-const key = new TextEncoder().encode(process.env.JWT_SECRET || secretKey);
+const secret = process.env.JWT_SECRET;
+if (!secret) {
+  // In production, we want to ensure this is set. 
+  // We'll use a fallback only if explicitly allowed, but better to fail loud.
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error("JWT_SECRET environment variable is not set");
+  }
+}
+
+const key = new TextEncoder().encode(secret || "dev_only_secret_change_me_in_production");
 
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
@@ -25,13 +32,18 @@ export async function login(formData: FormData) {
   const password = formData.get("password");
 
   if (
-    email === process.env.ADMIN_EMAIL &&
-    password === process.env.ADMIN_PASSWORD
+    email && email === process.env.ADMIN_EMAIL &&
+    password && password === process.env.ADMIN_PASSWORD
   ) {
     const expires = new Date(Date.now() + 2 * 60 * 60 * 1000);
     const session = await encrypt({ email, expires });
 
-    (await cookies()).set("session", session, { expires, httpOnly: true });
+    (await cookies()).set("session", session, { 
+      expires, 
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax'
+    });
     return true;
   }
   return false;
@@ -42,7 +54,11 @@ export async function logout() {
 }
 
 export async function getSession() {
-  const session = (await cookies()).get("session")?.value;
-  if (!session) return null;
-  return await decrypt(session);
+  try {
+    const session = (await cookies()).get("session")?.value;
+    if (!session) return null;
+    return await decrypt(session);
+  } catch (err) {
+    return null;
+  }
 }

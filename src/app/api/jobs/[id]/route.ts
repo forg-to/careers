@@ -13,13 +13,25 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await dbConnect();
-    const body = await req.json();
     const { id } = await params;
-    const job = await Job.findByIdAndUpdate(id, body, { new: true });
+    await dbConnect();
+    const json = await req.json();
+
+    // Explicit field selection
+    const { title, department, location, type, description, status, questions } = json;
+    
+    const job = await Job.findByIdAndUpdate(
+      id, 
+      { title, department, location, type, description, status, questions }, 
+      { new: true, runValidators: true }
+    );
+    
+    if (!job) return NextResponse.json({ error: "Not Found" }, { status: 404 });
+    
     return NextResponse.json(job);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Job update error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -33,11 +45,12 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await dbConnect();
     const { id } = await params;
+    await dbConnect();
     await Job.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Job delete error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

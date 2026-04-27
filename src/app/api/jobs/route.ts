@@ -11,11 +11,25 @@ export async function POST(req: Request) {
     }
 
     await dbConnect();
-    const body = await req.json();
-    const job = await Job.create(body);
+    const json = await req.json();
+    
+    // Explicit field selection to prevent mass assignment
+    const { title, department, location, type, description, status, questions } = json;
+    
+    const job = await Job.create({
+      title,
+      department,
+      location,
+      type,
+      description,
+      status,
+      questions
+    });
+    
     return NextResponse.json(job);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Job creation error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -25,6 +39,7 @@ export async function GET() {
     const jobs = await Job.find({ status: "open" }).sort({ createdAt: -1 });
     return NextResponse.json(jobs);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Job fetch error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
