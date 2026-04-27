@@ -2,8 +2,9 @@ import mongoose, { Schema, model, models } from 'mongoose';
 
 export interface IQuestion {
   label: string;
-  type: 'text' | 'textarea' | 'url' | 'email';
+  type: 'text' | 'textarea' | 'url' | 'email' | 'select';
   required: boolean;
+  options?: string[];
 }
 
 export interface IJob {
@@ -22,8 +23,9 @@ export interface IJob {
 
 const QuestionSchema = new Schema<IQuestion>({
   label: { type: String, required: true },
-  type: { type: String, enum: ['text', 'textarea', 'url', 'email'], default: 'text' },
+  type: { type: String, enum: ['text', 'textarea', 'url', 'email', 'select'], default: 'text' },
   required: { type: Boolean, default: true },
+  options: [{ type: String }],
 });
 
 const JobSchema = new Schema<IJob>(

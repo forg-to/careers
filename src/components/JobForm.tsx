@@ -11,8 +11,9 @@ const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 interface Question {
   label: string;
-  type: "text" | "textarea" | "url" | "email";
+  type: "text" | "textarea" | "url" | "email" | "select";
   required: boolean;
+  options?: string[];
 }
 
 interface JobFormProps {
