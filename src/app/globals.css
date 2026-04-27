@@ -123,3 +123,36 @@ html.forg-light {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-strong);
 }
+
+/* Rich Text Styles */
+.rich-text h1 { font-size: 2rem; margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--text-primary); }
+.rich-text h2 { font-size: 1.5rem; margin-top: 1.25rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--text-primary); }
+.rich-text h3 { font-size: 1.25rem; margin-top: 1rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--text-primary); }
+.rich-text p { margin-bottom: 1rem; }
+.rich-text ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
+.rich-text ol { list-style-type: decimal; margin-left: 1.5rem; margin-bottom: 1rem; }
+.rich-text li { margin-bottom: 0.25rem; }
+.rich-text a { color: var(--accent-primary); text-decoration: underline; }
+.rich-text blockquote { border-left: 4px solid var(--accent-primary); padding-left: 1rem; font-style: italic; margin-bottom: 1rem; }
+
+/* Quill Editor Customizations */
+.ql-container {
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+}
+.ql-editor {
+  min-height: 200px;
+}
+.ql-toolbar.ql-snow {
+  border-color: var(--border-default) !important;
+  background: var(--bg-secondary);
+}
+.ql-container.ql-snow {
+  border-color: var(--border-default) !important;
+}
+.forg-light .ql-editor {
+  color: #141413;
+}
+html:not(.forg-light) .ql-editor {
+  color: #faf9f5;
+}

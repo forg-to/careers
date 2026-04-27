@@ -1,10 +1,10 @@
 "use client";
 
-import { MagnifyingGlass } from "@phosphor-icons/react";
+import { Briefcase } from "@phosphor-icons/react";
 
 export function EmptyStateIcon() {
   return (
-    <MagnifyingGlass 
+    <Briefcase 
       size={64} 
       weight="duotone" 
       className="text-terracotta mb-6 opacity-80" 

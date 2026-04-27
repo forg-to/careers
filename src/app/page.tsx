@@ -30,7 +30,7 @@ export default async function CareersPage() {
             We're hiring!
           </div>
           
-          <h1 className="text-6xl md:text-[5rem] serif text-near-black mb-6 tracking-tight leading-[1.05]">
+          <h1 className="text-[64px] font-medium serif text-near-black mb-6 tracking-tight leading-[1.1]">
             Join us in building biggest devs community
           </h1>
           
@@ -39,9 +39,6 @@ export default async function CareersPage() {
           </p>
 
           <div className="flex flex-wrap justify-center gap-3 mt-8">
-            <button className="px-5 py-2 rounded-full border border-near-black bg-near-black text-ivory text-sm font-medium">
-              View all
-            </button>
             {uniqueDepartments.map((dept) => (
               <button key={dept} className="px-5 py-2 rounded-full border border-stone-gray/30 hover:border-border-cream bg-transparent hover:bg-ivory transition-colors text-near-black text-sm font-medium">
                 {dept}
