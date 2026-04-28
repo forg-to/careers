@@ -125,7 +125,7 @@ export default async function JobPage({
                   {job.type === "Contract" ? "Budget" : "Salary"}
                 </h4>
                 <p className="text-lg font-medium text-text-primary">
-                  {job.type === "Contract" ? job.budget : job.salaryRange || "Competitive"}
+                  {(job.type === "Contract" ? job.budget : job.salaryRange) || "Unpaid"}
                 </p>
               </div>
               <div className="sm:col-span-2 space-y-1">
