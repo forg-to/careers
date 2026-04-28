@@ -107,7 +107,7 @@ export default async function JobPage({
             </div>
             <Link
               href="#apply"
-              className="px-8 py-3 bg-accent-primary text-text-inverse rounded-xl font-medium hover:brightness-110 transition-all shadow-sm text-center"
+              className="px-5 py-2 bg-accent-primary text-text-inverse rounded-lg text-sm font-medium tracking-wide hover:brightness-110 transition-all shadow-sm text-center whitespace-nowrap"
             >
               Apply for this role
             </Link>
