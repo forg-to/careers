@@ -125,7 +125,8 @@ html.forg-light {
 }
 
 /* Rich Text Styles */
-.rich-text { overflow-wrap: break-word; min-width: 0; }
+.rich-text { overflow-wrap: break-word; word-break: normal; hyphens: none; min-width: 0; }
+.rich-text * { word-break: normal; hyphens: none; overflow-wrap: break-word; }
 .rich-text h1 { font-size: 2rem; margin-top: 1.5rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--text-primary); }
 .rich-text h2 { font-size: 1.5rem; margin-top: 1.25rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--text-primary); }
 .rich-text h3 { font-size: 1.25rem; margin-top: 1rem; margin-bottom: 0.5rem; font-family: var(--font-serif); color: var(--text-primary); }
