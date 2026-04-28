@@ -22,10 +22,10 @@ export const metadata: Metadata = {
     description: "Join the Forg team and help builders grow their online presence.",
     images: [
       {
-        url: "/logo.png",
-        width: 800,
-        height: 800,
-        alt: "Forg Logo",
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Forg Careers",
       },
     ],
   },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     creator: "@whykislay",
     title: "Forg Careers — Build the future of building in public",
     description: "Join the Forg team and help builders grow their online presence.",
-    images: ["/logo.png"],
+    images: ["/og.png"],
   },
   icons: {
     icon: "/favicon.ico",

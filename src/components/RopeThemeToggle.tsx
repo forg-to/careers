@@ -21,8 +21,8 @@ const ITERATIONS = 16;
 const SEGMENT_COUNT = 10;
 const SEGMENT_LEN = 18;
 
-const WORLD_W = 360;
-const WORLD_H = 290;
+const WORLD_W = 110;
+const WORLD_H = 230;
 
 export function RopeThemeToggle() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -282,12 +282,12 @@ export function RopeThemeToggle() {
     }, [toggleTheme]);
 
     return (
-        <div style={{ overflow: "visible", lineHeight: 0 }} className="fixed top-0 right-[max(1.5rem,calc(50vw-37rem))] z-[100] hidden md:block">
-            <div style={{ marginRight: "-180px" }}>
+        <div style={{ overflow: "visible", lineHeight: 0, pointerEvents: "none" }} className="fixed top-0 right-[max(1.5rem,calc(50vw-37rem))] z-[100] hidden md:block">
+            <div style={{ marginRight: "-55px", pointerEvents: "none" }}>
               <canvas
                   ref={canvasRef}
                   title={isDark ? "Pull to switch to light mode" : "Pull to switch to dark mode"}
-                  style={{ touchAction: "none", display: "block", cursor: "grab", overflow: "visible" }}
+                  style={{ touchAction: "none", display: "block", cursor: "grab", pointerEvents: "auto" }}
               />
             </div>
         </div>
